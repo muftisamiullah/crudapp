@@ -1,19 +1,16 @@
 import React from 'react'
-import Search from './screen2/Search'
 import {Routes , Route} from "react-router-dom"
+import Login from "./screen1/Login"
+import Crud from './screen2/Crud'
 import Navbar from './Components/Navbar'
-import Home from './screen1/Home'
-import Updatedata from "./Pages/Updatedata"
 
 const App = () => {
   return (
   <>
   <Navbar/>
     <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/search" element={<Search/>}/>
-      <Route path="/update/:id" element={<Updatedata/>}/>
-    
+      <Route path="/" element={<Login/>}/>
+      <Route path="/search" element={<Crud/>}/>
     </Routes>
   </>
   )

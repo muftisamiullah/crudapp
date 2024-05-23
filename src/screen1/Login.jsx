@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link , useNavigate} from "react-router-dom"
-import "./Home.css"
+import "./login.css"
 
-const Home = () => {
+const Login = () => {
 const navigate = useNavigate();
 
 const handlesubmit =(event)=>{
@@ -38,4 +38,4 @@ const handlesubmit =(event)=>{
   )
 }
 
-export default Home
+export default Login
