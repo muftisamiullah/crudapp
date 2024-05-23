@@ -19,12 +19,16 @@ const [newdata, setNewdata] = useState({
   email:""
 });
 
+//add to local storage
+const addtolocalstorage=()=>{
+  localStorage.setItem("userdata", JSON.stringify(items));
+}
+
 
     useEffect(() => {
         (async () => {
             let res = await axios.get('https://jsonplaceholder.typicode.com/users');
             setItems(res.data)
-            // localStorage.setItem("usersdata", JSON.stringify(res.data));
         })();
     }, []);
 
@@ -76,6 +80,7 @@ const [newdata, setNewdata] = useState({
     setIdno(null);
     setEditMode(false)
     setUpdatemode(false);
+    addtolocalstorage();
     
   }
  // create data
@@ -83,12 +88,12 @@ const [newdata, setNewdata] = useState({
   setEditMode(true);
 }
 
-// craete new data
+// create new data
 const createnewdata=()=>{
   newdata.id=items[items.length-1].id + 1;
-  // setItems({...items,newdata});
   items.push(newdata)
   setEditMode(false)
+  addtolocalstorage();
 
 }
 const styles ={
@@ -99,9 +104,9 @@ const styles ={
 }
 //adding localStorage
 
-useEffect(() => {
-  localStorage.setItem("userdata", JSON.stringify(items));
-}, [items]);
+ useEffect(() => {
+  addtolocalstorage();
+ }, [items]);
 
 
   return (
