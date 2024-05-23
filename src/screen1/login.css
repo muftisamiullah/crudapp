@@ -67,6 +67,11 @@ form .row input::placeholder{
   background: var(--maincolor);
   border: 1px solid var(--maincolor);
   cursor: pointer;
+  transition: background-color 1s;
+
+    &:hover {
+      background-color: black;
+    }
 }
 input[type=checkbox] {
     margin-right: 10px;

@@ -5,6 +5,7 @@ import "./login.css"
 const Login = () => {
 const navigate = useNavigate();
 
+
 const handlesubmit =(event)=>{
   event.preventDefault();
   navigate('/search');
@@ -18,11 +19,11 @@ const handlesubmit =(event)=>{
            <form onSubmit={handlesubmit}>
           <div className="row"> 
           <label htmlFor="email">Email</label>
-          <input type="text" name="email" placeholder="Email or Phone" required/>
+          <input type="text" name="email"  placeholder="Email or Phone" required/>
           </div>
           <div className="row">
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" placeholder="Password" required/>
+            <input type="password"  name="password" placeholder="Password" required/>
           </div>
           <div className="pass">
           <input type="checkbox" id="myCheckbox" name="myCheckbox" value="isChecked"/>

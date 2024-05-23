@@ -8,23 +8,26 @@ const Crud = () => {
 
 const [inputdata, setInputdata] = useState('');
 const [items, setItems] = useState([]);
-const [editMode, setEditMode] = useState(false);
+const [editMode, setEditMode] = useState(false)
+const [updateMode, setUpdatemode] = useState(false);
 const [idno, setIdno] = useState();
 const [search, setSearch] = useState('');
+const [newdata, setNewdata] = useState({
+  id:"",
+  username:"",
+  name:"",
+  email:""
+});
 
 
-  console.log(`state id ${idno}`)
     useEffect(() => {
         (async () => {
             let res = await axios.get('https://jsonplaceholder.typicode.com/users');
             setItems(res.data)
-            localStorage.setItem("usersdata", JSON.stringify(res.data));
+            // localStorage.setItem("usersdata", JSON.stringify(res.data));
         })();
     }, []);
 
-
-
-console.log(search)
 
 
 //! remove data
@@ -49,13 +52,13 @@ console.log(search)
       const edit_item_detail = items.find((curElem,index) => {
         return index === indexid;
        });
-       console.log(edit_item_detail)
        setInputdata(edit_item_detail);
        setIdno(indexid)
        setEditMode(true);
+       setUpdatemode(true);
     }
 
-   console.log(inputdata)
+   
  
  
    //! update data
@@ -69,28 +72,49 @@ console.log(search)
         return curElem;
       })
    );
-    console.log(items)
     setInputdata("");
     setIdno(null);
     setEditMode(false)
+    setUpdatemode(false);
+    
   }
+ // create data
+ const createdata =()=>{
+  setEditMode(true);
+}
 
+// craete new data
+const createnewdata=()=>{
+  newdata.id=items[items.length-1].id + 1;
+  // setItems({...items,newdata});
+  items.push(newdata)
+  setEditMode(false)
+
+}
 const styles ={
   container:{
     display:'flex',
     justifyContent:'space-around'
   }
 }
+//adding localStorage
+
+useEffect(() => {
+  localStorage.setItem("userdata", JSON.stringify(items));
+}, [items]);
 
 
   return (
     <>
 
     {editMode ? (
+      (updateMode?
+      (
         <div>
         <div className="container">
        <div className="wrapper">
-         <div className="title"><span>Update </span></div>
+         <div className="title">
+         <span>Update </span></div>
 
 
          <form  >
@@ -122,6 +146,49 @@ const styles ={
        </div>
      </div>
      </div>
+      ):
+      (
+        <div>
+        <div className="container">
+       <div className="wrapper">
+         <div className="title"><span>Create </span></div>
+
+
+         <form >
+           <div className="row">
+             <label htmlFor="username">Username</label>
+             <input type="text" name="username" value={newdata.username} placeholder="username" required
+             onChange={e => setNewdata({...newdata,username:e.target.value})}/>
+           </div>
+
+          <div className="row">
+             <label htmlFor="name">Name</label>
+             <input type="text" name="name"  value={newdata.name} placeholder="name" required
+                 onChange={e => setNewdata({...newdata,name:e.target.value})}/>
+
+           </div>
+
+           <div className="row">
+           <label htmlFor="email">Email</label>
+           <input type="email" name="email"  value={newdata.email} placeholder="Email or Phone" required
+             onChange={e => setNewdata({...newdata, email : e.target.value})}/>
+
+           </div>
+
+           <div className="row button" onClick={()=>createnewdata()}>
+             <input type="submit" value="Create"/>
+           </div>
+
+         </form>
+       </div>
+     </div>
+     </div>
+      )
+      
+      
+    )
+
+       
     ): (
         <div className='inner-container'>
             <div className='search-container'>
@@ -132,7 +199,7 @@ const styles ={
                 onChange={(e)=>setSearch(e.target.value)}
                 />
                 <input type='button' value="Create"
-                // onClick={handleFilterClick}
+                onClick={createdata}
 
                 /> 
             </div>
@@ -152,18 +219,13 @@ const styles ={
                 return search.toLowerCase() === '' ? item : item.username.toLowerCase().includes(search.toLowerCase())
                 }).map((item,indexid) => (
                 <tr  key={item.id} >
-                    <td>{item.id}{item.username}</td>
+                    <td>{item.username}</td>
                     <td>{item.name}</td>
                     <td>{item.email}</td>
                     <td>
                         <div style={styles.container}>
                          <FaRegEdit onClick={()=>editdata(indexid)} /> 
-                    
-
-                        {/* onClick={e=>deleterecord(item.id)} */}
-
-
-                        <MdDelete onClick={()=>deleterecord(indexid)}/>
+                         <MdDelete onClick={()=>deleterecord(indexid)}/>
                         </div>
                     </td>
                 </tr>
